@@ -1,0 +1,38 @@
+services:
+  bikas-ca-website:
+    container_name: bikas-ca-website
+    build: .
+    image: bikas-ca-website:latest
+    restart: unless-stopped
+    ports:
+      # HOST:CONTAINER — the left-hand (host) port must be unique on the NAS
+      # and must match the reverse-proxy target (Caddyfile / DSM Login Portal
+      # rule). hope-neurotrauma-website already uses 3008, so this site
+      # defaults to 3009. Override via HOST_PORT in a .env file next to this
+      # docker-compose.yml (see .env.example).
+      - "${HOST_PORT:-3009}:3000"
+    environment:
+      - NODE_ENV=production
+      # Password for the /admin page where site details (phone, address,
+      # ICAI membership no., office hours, notice, photo) are edited.
+      # CHANGE THIS before deploying — set ADMIN_PASSWORD in .env.
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-changeme123}
+    volumes:
+      # Admin-edited settings + uploaded photo live here, so rebuilding or
+      # updating the site never loses them.
+      - bikas-ca-data:/app/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  bikas-ca-data:
+    name: bikas-ca-data

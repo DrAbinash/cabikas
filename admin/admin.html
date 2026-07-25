@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Settings | CA Bikas Kumar</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root {
+      --navy-900: #081a2b; --navy-800: #0b2239; --navy-600: #16405e;
+      --gold-500: #c9a227; --gold-400: #d9b545;
+      --ivory: #faf8f3; --ink: #1d2d3a; --ink-soft: #46586a;
+      --line: rgba(11, 34, 57, 0.14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(900px 460px at 85% -10%, rgba(201, 162, 39, 0.14), transparent 60%),
+        var(--ivory);
+      color: var(--ink); line-height: 1.6;
+      display: grid; place-items: start center; padding: 2.5rem 1rem 4rem;
+    }
+    .panel { width: min(680px, 100%); }
+    .head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.6rem; }
+    .head svg { width: 46px; height: 46px; }
+    .head h1 { font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; margin: 0; color: var(--navy-800); }
+    .head p { margin: 0; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); }
+    .card {
+      background: #fff; border: 1px solid var(--line); border-radius: 16px;
+      padding: 1.8rem 1.7rem; margin-bottom: 1.3rem;
+      box-shadow: 0 2px 6px rgba(8,26,43,.06), 0 12px 32px rgba(8,26,43,.08);
+    }
+    .card h2 { font-size: 1.02rem; margin: 0 0 1rem; color: var(--navy-800); }
+    label { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy-600); margin: 1rem 0 0.3rem; }
+    label:first-of-type { margin-top: 0; }
+    .hint { font-size: 0.8rem; color: var(--ink-soft); margin: 0.2rem 0 0; }
+    input, textarea {
+      width: 100%; padding: 0.7rem 0.85rem; font: inherit; font-size: 0.95rem;
+      border: 1px solid var(--line); border-radius: 10px; background: var(--ivory); color: var(--ink);
+    }
+    input:focus, textarea:focus { outline: 2px solid var(--gold-400); outline-offset: 0; border-color: var(--gold-500); }
+    textarea { resize: vertical; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 999px; border: none; cursor: pointer;
+      font: inherit; font-weight: 600; font-size: 0.92rem;
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400)); color: var(--navy-900);
+      box-shadow: 0 6px 16px rgba(201, 162, 39, 0.35);
+    }
+    .btn:hover { filter: brightness(1.05); }
+    .btn--quiet { background: none; box-shadow: none; color: var(--navy-600); border: 1px solid var(--line); }
+    .btn--danger { background: none; box-shadow: none; color: #a33; border: 1px solid rgba(170, 51, 51, 0.4); }
+    .row { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-top: 1.4rem; }
+    .status { font-size: 0.88rem; margin: 0; min-height: 1.2em; }
+    .status.ok { color: #1c7a3d; }
+    .status.err { color: #a33; }
+    .photo-row { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+    .photo-preview {
+      width: 96px; height: 96px; border-radius: 18px; flex: none;
+      background: linear-gradient(135deg, var(--navy-800), var(--navy-600));
+      color: var(--gold-400); display: grid; place-items: center;
+      font-family: Georgia, serif; font-size: 1.6rem; font-weight: 700;
+      border: 2px solid var(--gold-500); overflow: hidden;
+    }
+    .photo-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .topline { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .topline a { color: var(--navy-600); font-size: 0.9rem; }
+    #view-settings, #view-login { display: none; }
+    body.authed #view-settings { display: block; }
+    body.anon #view-login { display: block; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <div class="head">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#0b2239"/><rect x="3.5" y="3.5" width="41" height="41" rx="8" fill="none" stroke="#c9a227" stroke-width="2"/><text x="24" y="31.5" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="700" fill="#c9a227">BK</text></svg>
+      <div>
+        <h1>Admin Settings</h1>
+        <p>CA Bikas Kumar — website</p>
+      </div>
+    </div>
+
+    <!-- ================= Login ================= -->
+    <section id="view-login">
+      <form class="card" id="login-form">
+        <h2>Sign in</h2>
+        <label for="password">Admin password</label>
+        <input type="password" id="password" autocomplete="current-password" required>
+        <p class="hint">This is the ADMIN_PASSWORD set on the server (see .env / docker-compose.yml).</p>
+        <div class="row">
+          <button class="btn" type="submit">Sign in</button>
+          <p class="status" id="login-status"></p>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================= Settings ================= -->
+    <section id="view-settings">
+      <div class="topline">
+        <a href="/" target="_blank" rel="noopener">↗ View the live site</a>
+        <button class="btn btn--quiet" id="logout">Sign out</button>
+      </div>
+
+      <div class="card">
+        <h2>Photograph</h2>
+        <div class="photo-row">
+          <div class="photo-preview" id="photo-preview">BK</div>
+          <div>
+            <input type="file" id="photo-file" accept="image/png,image/jpeg,image/webp">
+            <p class="hint">Shown on the profile card in place of the “BK” monogram. JPEG, PNG or WebP, up to 4&nbsp;MB. A square image looks best.</p>
+            <div class="row" style="margin-top:0.6rem">
+              <button class="btn" id="photo-upload" type="button">Upload photo</button>
+              <button class="btn btn--danger" id="photo-remove" type="button">Remove</button>
+              <p class="status" id="photo-status"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="card" id="settings-form">
+        <h2>Professional details</h2>
+
+        <label for="membershipNo">ICAI membership number</label>
+        <input id="membershipNo" placeholder="e.g. 123456">
+        <p class="hint">Shown on the profile card and in the footer. Leave blank to hide.</p>
+
+        <label for="officeHours">Office hours</label>
+        <input id="officeHours" placeholder="e.g. Mon–Sat, 10:30 AM – 7:30 PM">
+        <p class="hint">Shown in the Contact section. Leave blank to hide.</p>
+
+        <label for="notice">Notice banner</label>
+        <textarea id="notice" rows="2" placeholder="e.g. Office closed on 15 August. / ITR filing due 31 July — book early."></textarea>
+        <p class="hint">A highlighted strip at the top of the site for announcements. Leave blank to hide.</p>
+
+        <h2 style="margin-top:1.8rem">Contact details</h2>
+
+        <label for="phone">Phone (as displayed)</label>
+        <input id="phone" placeholder="+91 99734 97199">
+
+        <label for="whatsapp">WhatsApp number</label>
+        <input id="whatsapp" placeholder="+91 99734 97199">
+
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="mailmebikas@gmail.com">
+
+        <label for="addressLines">Office address (one line per row)</label>
+        <textarea id="addressLines" rows="3"></textarea>
+
+        <div class="row">
+          <button class="btn" type="submit">Save changes</button>
+          <p class="status" id="save-status"></p>
+        </div>
+        <p class="hint" style="margin-top:0.8rem">Clearing phone, WhatsApp, email or address restores the built-in defaults; they are never left empty on the site.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var $ = function (id) { return document.getElementById(id); };
+      var FIELDS = ["membershipNo", "officeHours", "notice", "phone", "whatsapp", "email"];
+
+      function setStatus(el, message, ok) {
+        el.textContent = message;
+        el.className = "status " + (ok ? "ok" : "err");
+        if (message) setTimeout(function () { el.textContent = ""; }, 5000);
+      }
+
+      function api(path, options) {
+        options = options || {};
+        options.headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
+        options.credentials = "same-origin";
+        return fetch(path, options).then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+            return data;
+          });
+        });
+      }
+
+      function showView(authed) {
+        document.body.classList.toggle("authed", authed);
+        document.body.classList.toggle("anon", !authed);
+      }
+
+      function fillForm(s) {
+        FIELDS.forEach(function (f) { $(f).value = s[f] || ""; });
+        $("addressLines").value = (s.addressLines || []).join("\n");
+        var preview = $("photo-preview");
+        if (s.photoUrl) preview.innerHTML = '<img src="' + s.photoUrl + '" alt="Profile photo">';
+        else preview.textContent = "BK";
+      }
+
+      function loadSettings() {
+        api("/api/settings").then(fillForm).catch(function () {});
+      }
+
+      /* --- session bootstrap --- */
+      api("/api/admin/session").then(function (data) {
+        showView(data.authed);
+        if (data.authed) loadSettings();
+      }).catch(function () { showView(false); });
+
+      /* --- login / logout --- */
+      $("login-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        api("/api/admin/login", { method: "POST", body: JSON.stringify({ password: $("password").value }) })
+          .then(function () { showView(true); loadSettings(); $("password").value = ""; })
+          .catch(function (err) { setStatus($("login-status"), err.message, false); });
+      });
+
+      $("logout").addEventListener("click", function () {
+        api("/api/admin/logout", { method: "POST" }).then(function () { showView(false); });
+      });
+
+      /* --- save settings --- */
+      $("settings-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var payload = {};
+        FIELDS.forEach(function (f) { payload[f] = $(f).value; });
+        payload.addressLines = $("addressLines").value;
+        api("/api/admin/settings", { method: "PUT", body: JSON.stringify(payload) })
+          .then(function (s) { fillForm(s); setStatus($("save-status"), "Saved. The site shows the new details immediately.", true); })
+          .catch(function (err) { setStatus($("save-status"), err.message, false); });
+      });
+
+      /* --- photo upload / remove --- */
+      $("photo-upload").addEventListener("click", function () {
+        var file = $("photo-file").files[0];
+        if (!file) { setStatus($("photo-status"), "Choose an image file first.", false); return; }
+        if (file.size > 4 * 1024 * 1024) { setStatus($("photo-status"), "Image is larger than 4 MB.", false); return; }
+        var reader = new FileReader();
+        reader.onload = function () {
+          api("/api/admin/photo", { method: "PUT", body: JSON.stringify({ dataUrl: reader.result }) })
+            .then(function (s) { fillForm(s); setStatus($("photo-status"), "Photo updated.", true); $("photo-file").value = ""; })
+            .catch(function (err) { setStatus($("photo-status"), err.message, false); });
+        };
+        reader.onerror = function () { setStatus($("photo-status"), "Could not read that file.", false); };
+        reader.readAsDataURL(file);
+      });
+
+      $("photo-remove").addEventListener("click", function () {
+        api("/api/admin/photo", { method: "DELETE" })
+          .then(function (s) { fillForm(s); setStatus($("photo-status"), "Photo removed — monogram restored.", true); })
+          .catch(function (err) { setStatus($("photo-status"), err.message, false); });
+      });
+    })();
+  </script>
+</body>
+</html>

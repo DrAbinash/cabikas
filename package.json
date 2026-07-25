@@ -1,0 +1,12 @@
+{
+  "name": "bikas-ca-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website of CA Bikas Kumar, Chartered Accountant, Deoghar — static site with an admin settings panel",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
