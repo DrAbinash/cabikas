@@ -110,10 +110,10 @@
           <div class="photo-preview" id="photo-preview">BK</div>
           <div>
             <input type="file" id="photo-file" accept="image/png,image/jpeg,image/webp">
-            <p class="hint">Shown on the profile card in place of the “BK” monogram. JPEG, PNG or WebP, up to 4&nbsp;MB. A square image looks best.</p>
+            <p class="hint">Replaces the photo shown on the profile card. JPEG, PNG or WebP, up to 4&nbsp;MB. A square image looks best.</p>
             <div class="row" style="margin-top:0.6rem">
-              <button class="btn" id="photo-upload" type="button">Upload photo</button>
-              <button class="btn btn--danger" id="photo-remove" type="button">Remove</button>
+              <button class="btn" id="photo-upload" type="button">Upload new photo</button>
+              <button class="btn btn--danger" id="photo-remove" type="button">Reset to default photo</button>
               <p class="status" id="photo-status"></p>
             </div>
           </div>
@@ -246,7 +246,7 @@
 
       $("photo-remove").addEventListener("click", function () {
         api("/api/admin/photo", { method: "DELETE" })
-          .then(function (s) { fillForm(s); setStatus($("photo-status"), "Photo removed — monogram restored.", true); })
+          .then(function (s) { fillForm(s); setStatus($("photo-status"), "Default photo restored.", true); })
           .catch(function (err) { setStatus($("photo-status"), err.message, false); });
       });
     })();

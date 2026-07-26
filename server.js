@@ -64,7 +64,7 @@ const DEFAULT_SETTINGS = {
   membershipNo: "",
   officeHours: "",
   notice: "",
-  photoUrl: "",
+  photoUrl: "/images/ca-bikas-kumar.webp",
 };
 
 function readSettings() {
