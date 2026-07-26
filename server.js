@@ -1,5 +1,5 @@
 /* ============================================================================
- *  server.js — CA Bikas Kumar website
+ *  server.js — B. K. & Co., Chartered Accountants website
  *
  *  A small, zero-dependency Node.js server that:
  *    1. serves the static site from ./public
@@ -437,6 +437,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`CA Bikas Kumar website listening on http://0.0.0.0:${PORT}`);
+  console.log(`B. K. & Co. website listening on http://0.0.0.0:${PORT}`);
   console.log(`Data directory: ${DATA_DIR}`);
 });

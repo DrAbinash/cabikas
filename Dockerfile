@@ -1,5 +1,5 @@
 # ============================================================================
-#  Dockerfile — CA Bikas Kumar website (static site + admin settings panel)
+#  Dockerfile — B. K. & Co., Chartered Accountants website (static site + admin settings panel)
 #  Optimised for Synology Container Manager.
 #  Zero npm dependencies: nothing to install, so builds are fast and
 #  reproducible — the image is just Node + the site files.

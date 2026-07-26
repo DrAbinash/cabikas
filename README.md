@@ -1,6 +1,6 @@
-# CA Bikas Kumar — Chartered Accountant, Deoghar
+# B. K. & Co., Chartered Accountants — Deoghar
 
-Official website of **CA Bikas Kumar**, Chartered Accountant — B.Com (Hons), Shri Ram College of Commerce; trained at A. F. Ferguson & Co.
+Official website of **B. K. & Co., Chartered Accountants**. Proprietor: **CA Bikas Kumar**, B.Com (Hons), Shri Ram College of Commerce; trained at A. F. Ferguson & Co.
 
 **Live domain:** [www.bikas.caredeoghar.com](https://www.bikas.caredeoghar.com)
 
